@@ -4,7 +4,7 @@ use base 'Devel::PatchPerl';
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub patchperl {
     my $class = shift;
@@ -61,6 +61,7 @@ END
 sub _patch_hsplit_rehash_58
 {
   my $perl = shift;
+  return if $Devel::PatchPerl::VERSION >= 0.86;
 
   my $patch = <<'END';
 --- hv.c
@@ -177,6 +178,8 @@ END
 # http://perl5.git.perl.org/perl.git/commit/f14269908e5f8b4cab4b55643d7dd9de577e7918
 # http://perl5.git.perl.org/perl.git/commit/9d83adcdf9ab3c1ac7d54d76f3944e57278f0e70
 sub _patch_hsplit_rehash_510 {
+  return if $Devel::PatchPerl::VERSION >= 0.86;
+
   _patch(<<'END');
 --- ext/Hash-Util-FieldHash/t/10_hash.t
 +++ ext/Hash-Util-FieldHash/t/10_hash.t
