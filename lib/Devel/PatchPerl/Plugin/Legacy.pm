@@ -25,22 +25,22 @@ package
 our @patch = (
     {
         perl => [ qr/^5\.8\.8$/ ],
-        subs => [ [ \&_patch_no_debugging ] ],
+        subs => [ [ \&_legacy_patch_no_debugging ] ],
     },
     {
         perl => [ qr/^5\.8\.[89]$/ ],
-        subs => [ [ \&_patch_hsplit_rehash_58 ] ],
+        subs => [ [ \&_legacy_patch_hsplit_rehash_58 ] ],
     },
     {
         perl => [
             qr/^5\.10\.1$/,
             qr/^5\.12\.5$/,
         ],
-        subs => [ [ \&_patch_hsplit_rehash_510 ] ],
+        subs => [ [ \&_legacy_patch_hsplit_rehash_510 ] ],
     },
 );
 
-sub _patch_no_debugging {
+sub _legacy_patch_no_debugging {
     _patch(<<'END');
 --- Configure
 +++ Configure
@@ -58,7 +58,7 @@ END
 }
 
 # http://perl5.git.perl.org/perl.git/commit/2674b61957c26a4924831d5110afa454ae7ae5a6
-sub _patch_hsplit_rehash_58
+sub _legacy_patch_hsplit_rehash_58
 {
   my $perl = shift;
   return if $Devel::PatchPerl::VERSION >= 0.86;
@@ -177,7 +177,7 @@ END
 
 # http://perl5.git.perl.org/perl.git/commit/f14269908e5f8b4cab4b55643d7dd9de577e7918
 # http://perl5.git.perl.org/perl.git/commit/9d83adcdf9ab3c1ac7d54d76f3944e57278f0e70
-sub _patch_hsplit_rehash_510 {
+sub _legacy_patch_hsplit_rehash_510 {
   return if $Devel::PatchPerl::VERSION >= 0.86;
 
   _patch(<<'END');
